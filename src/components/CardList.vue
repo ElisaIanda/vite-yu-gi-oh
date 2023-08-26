@@ -1,10 +1,15 @@
-
 <script>
 import CardHeader from "./CardHeader.vue";
-import { store } from "../store";
+import Card from "./Card.vue";
+import CardFilter from "./CardFilter.vue";
+import { store, fetchCards } from "../store";
 
 export default {
-    
+    components: {
+        Card,
+        CardHeader,
+        CardFilter,
+    },
 
     data() {
         return {
@@ -12,24 +17,19 @@ export default {
         }
     },
 
-
-    components: {
-        CardHeader,
+    mounted() {
+        fetchCards()
     },
 }
 </script>
 
 <template>
     <div class="container py-5 bg-light">
+        <CardFilter :arrayArchetype="store.arrayArchetype"></CardFilter>
         <CardHeader></CardHeader>
-        <div class="d-flex flex-wrap gap">
-
-            <div class="card" v-for="singleCard in store.array" :key="singleCard.id">
-                <img :src="singleCard.card_images[0].image_url" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title text-white">{{ singleCard.name }}</h5>
-                    <p class="card-text">{{ singleCard.archetype }}</p>
-                </div>
+        <div class="row gy-3">
+            <div class="col-sm-1 col-md-2 col-lg-3" v-for="singleCard in store.array">
+                <Card :array="singleCard" />
             </div>
         </div>
     </div>
@@ -38,18 +38,11 @@ export default {
 <style lang="scss" scoped>
 @use "../assets/styles/partials/variable" as *;
 
-.container {
-    .gap{
-        gap: 1.2rem
-    }
-    .card {
-        width: calc((100% / 5) - 1rem);
-        border: none;
-        --bs-card-bg: #d48f38;
-        border-radius: 0;
-    }
-}
 </style>  
+
+
+
+
 
 
 
