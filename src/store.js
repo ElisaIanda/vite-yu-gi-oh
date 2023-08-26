@@ -5,7 +5,7 @@ import { reactive } from 'vue';
 export const store = reactive({
     array: [],
     arrayArchetype: [],
-    selection: "",
+    selectArchetype: "",
 });
 
 export function fetchCards() {
@@ -24,13 +24,11 @@ export function fillArrayArchetype() {
     });
 }
 
-export function filteredCard(selection){
-    if( selection === "" || selection === undefined){
-        console.log(selection)
+export function filteredCard(selectArchetype){
+    if( selectArchetype === "" || selectArchetype === undefined){
         fetchCards()
     } else {
-        console.log(selection)
-        const url = `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${selection}&num=20&offset=0`
+        const url = `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${selectArchetype}&num=20&offset=0`
         axios.get(url).then((response)=>{
             store.array = response.data.data
         })
